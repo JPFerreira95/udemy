@@ -1,6 +1,8 @@
 package com.udemy.microservices.currencyconversionservice.controller;
 
 import com.udemy.microservices.currencyconversionservice.entity.CurrencyConversion;
+import com.udemy.microservices.currencyconversionservice.proxy.currencyexchange.CurrencyExchangeProxy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +28,13 @@ import java.util.Map;
  * also pass the quantity we want to convert using the data that comes from currency-exchange.
  */
 @RestController
-@RequestMapping("currency-conversion")
+//@RequestMapping("currency-conversion")
 public class CurrencyConversionController {
 
-    @GetMapping("/from/{from}/to/{to}/quantity/{quantity}")
+    @Autowired
+    private CurrencyExchangeProxy proxy;
+
+    @GetMapping("currency-conversion/from/{from}/to/{to}/quantity/{quantity}")
     public CurrencyConversion calculateCurrencyConversion(@PathVariable String from,
                                                           @PathVariable String to,
                                                           @PathVariable BigDecimal quantity){
@@ -52,4 +57,20 @@ public class CurrencyConversionController {
                 currencyConversion.getConversionMultiple().multiply(quantity),
                 currencyConversion.getEnvironment());
     }
+
+    @GetMapping("currency-conversion-feign/from/{from}/to/{to}/quantity/{quantity}")
+    public CurrencyConversion calculateCurrencyConversionFeign(@PathVariable String from,
+                                                          @PathVariable String to,
+                                                          @PathVariable BigDecimal quantity){
+
+        // Get currency conversion from proxy
+        CurrencyConversion currencyConversion = proxy.retrieveExchangeValue(from, to);
+
+        // Fill response with fields came from response
+        return new CurrencyConversion(currencyConversion.getId(), from, to, quantity,
+                currencyConversion.getConversionMultiple(),
+                currencyConversion.getConversionMultiple().multiply(quantity),
+                currencyConversion.getEnvironment());
+    }
+
 }
