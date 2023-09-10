@@ -1,4 +1,4 @@
-package com.udemy.microservices.currencyexchangeservice.controller;
+package com.udemy.microservices.currencyexchangeservice.controller.currencyexchange;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
