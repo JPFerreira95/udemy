@@ -1,1 +1,1 @@
-INSERT INTO course(id, name) values (1001, 'JPA in 100 steps');
+INSERT INTO course(id, name) values (1001, 'JPA in 100 Steps');
