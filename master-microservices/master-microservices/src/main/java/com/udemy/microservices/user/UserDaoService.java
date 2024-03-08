@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.udemy.microservices.post.Post;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,6 +23,11 @@ public class UserDaoService {
 	 * @return the user
 	 */
 	private static int usersCount = 3;
+	private final UserRepository userRepository;
+
+	public UserDaoService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	static {
 		users.add(new User(1, "Adam", new Date()));
@@ -100,7 +106,6 @@ public class UserDaoService {
 //		}
 
 		throw new UserNotFoundException("id-" + id);
-
 	}
 
 }

@@ -152,4 +152,5 @@ public class UserJPAResource {
 
 		return ResponseEntity.created(location).build();
 	}
+
 }
