@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.udemy.microservices.post.Post;
 
 /**
@@ -24,15 +25,16 @@ public class User {
 	private Integer id;
 
 	/** The name. */
-	@Size(min = 2)
+	@Size(min = 2, message = "Should have at least 2 characters")
 	private String name;
 
-	@Past
+	@Past(message = "Date birth should be in the past")
 	/** The birth date. */
 	private Date birthDate;
 
 	/** The posts. */
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private List<Post> posts;
 
 	/**

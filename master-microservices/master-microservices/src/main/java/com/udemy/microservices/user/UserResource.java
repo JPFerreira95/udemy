@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
+import com.udemy.microservices.post.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -66,7 +67,7 @@ public class UserResource {
 	public void deleteUser(@PathVariable int id) {
 		userDaoService.deleteById(id);
 
-		// another alternative to void
+		// anotheralternative to void
 		// return ResponseEntity.noContent();
 	}
 
