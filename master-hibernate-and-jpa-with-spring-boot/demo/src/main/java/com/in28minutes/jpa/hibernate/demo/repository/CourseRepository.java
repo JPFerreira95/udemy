@@ -17,6 +17,16 @@ public class CourseRepository {
         return em.find(Course.class, id);
     }
 
+    public Course save(Course course) {
+        if(course.getId() == null) {
+            em.persist(course);
+        } else {
+            em.merge(course);
+        }
+
+        return course;
+    }
+
     public boolean deleteById(Long id) {
         try{
             Course course = findById(id);
@@ -25,6 +35,28 @@ public class CourseRepository {
             return false;
         }
         return true;
+    }
+
+    public void playWithEntityManager() {
+        // While we are in a transaction (@Transaction) entity manager will keep track of the changes e will persist
+        // them in the database without needing to call the save method afterward
+        Course course = new Course("Web Services in 100 Steps");
+        em.persist(course);
+        em.flush(); // The changes up to this point are saved in the database
+
+        /*
+         * The course will be removed from the persistence context which means that the further
+         * changes will not be applied to the entity
+         */
+        // em.detach(course);
+
+        course.setName("Web Services in 100 Steps - Updated");
+
+        /*
+         * The content of the course entity will be refreshed with it is present in the database.
+         * Which means that any change applied that was not yet saved in the database will be reversed.
+         */
+        em.refresh(course);
     }
 
 }
