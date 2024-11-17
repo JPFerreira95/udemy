@@ -29,3 +29,8 @@ hs_err_pid*
 # vscode
 /.vscode
 /.DS_Store
+
+
+# Maven
+**/target/**
+**/META-INF/
